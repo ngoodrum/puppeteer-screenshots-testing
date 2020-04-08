@@ -1,5 +1,5 @@
 {
-  "name": "test-puppeteer",
+  "name": "puppeteer-screenshots-testing",
   "version": "1.0.0",
   "description": "Testing out puppeteer for audit screen shots",
   "main": "index.js",
