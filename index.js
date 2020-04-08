@@ -1,4 +1,10 @@
+const fs = require('fs');
+const rimraf = require('rimraf');
 const puppeteer = require('puppeteer');
+// wherever you want them
+const assetFolder = './images';
+// yeah hardcoded - this is a testing setup
+const cleanArg = process.argv[2];
 
 // Updatable list in Object format but maybe look into CSV pull in or something
 const urlList = [
@@ -63,4 +69,12 @@ async function run() {
     await browser.close();
 }
 
+// yeah syncronous - you want to fight about it?
+if ( ! fs.existsSync(assetFolder) ) {
+    fs.mkdirSync(assetFolder);
+}
+// keeping sync style for cleanup as well 
+if ( cleanArg === "--clean") {
+    rimraf.sync(assetFolder + '/*');
+}
 run();
