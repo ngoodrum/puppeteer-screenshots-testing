@@ -1,0 +1,16 @@
+{
+  "name": "test-puppeteer",
+  "version": "1.0.0",
+  "description": "Testing out puppeteer for audit screen shots",
+  "main": "index.js",
+  "scripts": {
+    "shoot": "node index.js",
+    "cleanshot" : "rimraf images/* && node index.js"
+  },
+  "author": "Nick Goodrum",
+  "license": "MIT",
+  "dependencies": {
+    "puppeteer": "^2.1.1",
+    "rimraf": "^3.0.2"
+  }
+}
