@@ -5,12 +5,14 @@
   "main": "index.js",
   "scripts": {
     "shoot": "node index.js",
-    "cleanshot" : "node index.js --clean"
+    "cleanshot": "node index.js -clean"
   },
   "author": "Nick Goodrum",
   "license": "MIT",
   "dependencies": {
+    "minimist": "^1.2.5",
     "puppeteer": "^2.1.1",
-    "rimraf": "^3.0.2"
+    "rimraf": "^3.0.2",
+    "xlsx": "^0.15.6"
   }
 }

@@ -16,3 +16,25 @@ Currently for WCAG 1.4.10 Reflow testing and screenshots Puppeteer does not look
    ```
    npm run cleanshot 
    ```
+
+## Flags and Arguments to Pass
+
+-  Clean via rimraf (what cleanshot does)
+   ```
+   -clean
+   ```
+-  Destination (default is ./images)
+
+   ```
+   --dest ./path-you-want-to-put-your-files
+   ```
+-  File location of CSV (default is demo.xlsx)
+
+   ```
+   --file ./assets/demo.xlsx
+   ```
+-  No Excel Sheets (run via localList in index.js in case you don't want to use XLSX) 
+
+   ```
+   -nosheets
+   ```
