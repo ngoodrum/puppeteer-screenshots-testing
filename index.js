@@ -5,17 +5,14 @@ const puppeteer = require('puppeteer');
 const XLSX = require('xlsx');
 // wherever you want them
 const assetFolder = argv['dest'] || './images';
-const csv = argv['file'] || "demo.xlsx";
+const file = argv['file'] || "demo.xlsx";
 
 // Maybe if you don't want to do it CSV style
 const localList = [
     {
         page : 'Homepage',
         URL : 'https://www.google.com/',
-        triggers : [
-            "input[autofocus]",
-            "body"
-        ]
+        triggers : 'input[autofocus], body'
     },
     {
         page : 'Landing Page',
@@ -56,29 +53,31 @@ async function run(urlList) {
         await page.screenshot({ path: `./images/${item.page}-screenshot-desktop-1280.jpg`, type: 'jpeg' });
         
         // Can be tried out but technically is not true 400% zoom at 1280x1024 and I have seen discrepencies
-        // await page.setViewport({
-        //     width: 320,
-        //     height: 256,
-        //     deviceScaleFactor: 4
-        // });
-        // Setting the device scale definitely requires a reload
-        // await page.reload();
-        // await page.waitFor(1000);
+        // if (page.zoom) { //maybe have it be a flag?
+        //     await page.setViewport({
+        //         width: 320,
+        //         height: 256,
+        //         deviceScaleFactor: 4
+        //     });
+        //     Setting the device scale definitely requires a reload
+        //     await page.reload();
+        //     await page.waitFor(1000);
+        //     commenting out zoom since it doesn't seem like it is good enough but can dive deeper
+        //     await page.screenshot({ path: `./images/${item.name}-400-zoom.jpg`, type: 'jpeg' });
+        // }
 
         await page.emulate(puppeteer.devices['iPhone 8']);
         // haven't tested differences but assume emulate might work best once reloaded
         await page.reload();
         await page.waitFor(500);
-        //commenting out zoom since it doesn't seem like it is good enough but can dive deeper
-        //await page.screenshot({ path: `./images/${item.name}-400-zoom.jpg`, type: 'jpeg' });
         await page.screenshot({ path: `./images/${item.page}-screenshot-iphone8.jpg`, type: 'jpeg' });
         await page.close();
     });
     await browser.close();
 }
 
-async function createListRun(csv){
-    const workbook = XLSX.readFile(csv);
+async function createListRun(xlsx){
+    const workbook = XLSX.readFile(xlsx);
     let pageList = [];
     console.log(workbook.SheetNames);
 
@@ -104,8 +103,8 @@ if ( argv['clean'] ) {
     rimraf.sync(assetFolder + '/*');
 }
 
-if ( fs.existsSync(csv) && argv['nosheets']) {
-    createListRun(csv);
+if ( fs.existsSync(file) && ! argv['nosheets']) {
+    createListRun(file);
 } else {
     run(localList);
 }

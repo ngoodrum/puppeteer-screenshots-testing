@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "shoot": "node index.js",
-    "cleanshot": "node index.js -clean"
+    "cleanshot": "node index.js --clean"
   },
   "author": "Nick Goodrum",
   "license": "MIT",
