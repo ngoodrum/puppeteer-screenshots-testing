@@ -10,13 +10,8 @@ const file = argv['file'] || "demo.xlsx";
 // Maybe if you don't want to do it CSV style
 const localList = [
     {
-        page : 'Homepage',
-        URL : 'https://www.google.com/',
-        triggers : 'input[autofocus], body'
-    },
-    {
-        page : 'Landing Page',
-        URL : 'https://www.google.com/search?q=jawesome'
+        page : 'Google',
+        URL : 'https://www.google.com/'
     }
 ];
 
@@ -28,6 +23,9 @@ async function asyncForEach(array, callback) {
 
 async function run(urlList) {
     let browser = await puppeteer.launch({ headless: false });
+    //If you want to overwite geolocation permissions
+    //const context = browser.defaultBrowserContext();
+    //await context.overridePermissions('...', ['geolocation']);
 
     //could look into running multiple tabs/instances to speed up process https://github.com/thomasdondorf/puppeteer-cluster
     await asyncForEach(urlList, async (item) => {
@@ -49,7 +47,7 @@ async function run(urlList) {
             });
         }
         // give the page some time to cool down in case there are animations from load or closing out policies
-        await page.waitFor(500);
+        await page.waitFor(2000);
         await page.screenshot({ path: `./images/${item.page}-screenshot-desktop-1280.jpg`, type: 'jpeg' });
         
         // Can be tried out but technically is not true 400% zoom at 1280x1024 and I have seen discrepencies
@@ -66,11 +64,13 @@ async function run(urlList) {
         //     await page.screenshot({ path: `./images/${item.name}-400-zoom.jpg`, type: 'jpeg' });
         // }
 
-        await page.emulate(puppeteer.devices['iPhone 8']);
-        // haven't tested differences but assume emulate might work best once reloaded
-        await page.reload();
-        await page.waitFor(500);
-        await page.screenshot({ path: `./images/${item.page}-screenshot-iphone8.jpg`, type: 'jpeg' });
+        if (! item.desktopOnly) {
+            await page.emulate(puppeteer.devices['iPhone 8']);
+            // haven't tested differences but assume emulate might work best once reloaded
+            await page.reload();
+            await page.waitFor(2000);
+            await page.screenshot({ path: `./images/${item.page}-screenshot-iphone8.jpg`, type: 'jpeg' });
+        }
         await page.close();
     });
     await browser.close();
