@@ -10,7 +10,7 @@
   "author": "Nick Goodrum",
   "license": "MIT",
   "dependencies": {
-    "minimist": "^1.2.5",
+    "minimist": "^1.2.6",
     "puppeteer": "^2.1.1",
     "rimraf": "^3.0.2",
     "xlsx": "^0.15.6"
